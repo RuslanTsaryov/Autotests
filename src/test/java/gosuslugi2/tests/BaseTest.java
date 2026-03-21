@@ -21,9 +21,9 @@ public class BaseTest {
 
     @AfterEach
     public void setDown() {
-//        if(driver != null) {
-//            driver.quit();
-//        }
+        if(driver != null) {
+            driver.quit();
+        }
     }
 
     public WebDriver getDriver() {

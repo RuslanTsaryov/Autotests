@@ -1,5 +1,7 @@
 package gosuslugi2.pages;
 
+import gosuslugi2.elements.Button;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,16 +12,19 @@ import static gosuslugi2.helpers.ActionHelp.moveToElementAndClick;
 
 public class MainPage extends BasePage {
     @FindBy(css = "div.location-select a[role='button']")
-    public WebElement regionSelectButton;
+    private WebElement regionSelectButton;
 
     @FindBy(css = "#app-radio-1")
-    public WebElement manualRegionSelectRadioButton;
+    private WebElement manualRegionSelectRadioButton;
 
     @FindBy(css = "[id*='search-input']")
-    WebElement regionInput;
+    private WebElement regionInput;
 
     @FindBy(xpath = "//span[contains(text(), 'Применить')]")
-    WebElement submitButton;
+    private WebElement submitButton;
+
+    @FindBy(css = "div.location-select a[role='button']")
+    private Button someButton;
 
     //Конструктор, с помощью него создается экземпляр класса
     public MainPage(WebDriver driver) {
@@ -32,12 +37,25 @@ public class MainPage extends BasePage {
         //Код дополнненый при выполнении ДЗ #2
         manualRegionSelectRadioButton.click();
         regionInput.sendKeys(region);
+        selectRegionXpath(region);
+        submitButton.click();
+    }
 
-        //Не вынес локатор под аннотацией FindBy, т.к. нужно в него передавать переменную region, чтобы метод setRegion был универсальным
-        WebElement regionToClick = driver.findElement(
+    public void selectRegionXpath(String region) {
+        WebElement regionToSelect = driver.findElement(
                 By.xpath(String.format("//span[@class='highlighted' and contains(text(), '%s')]", region))
         );
-        moveToElementAndClick(regionToClick);
-        submitButton.click();
+        moveToElementAndClick(regionToSelect);
+    }
+
+    public void someMethod() {
+        someButton.customClick();
+    }
+
+    //ДЗ #3:
+    public void checkResult(String expected) {
+        //применить ассерты
+        String actual = regionSelectButton.getText();
+        Assertions.assertEquals(actual, expected);
     }
 }

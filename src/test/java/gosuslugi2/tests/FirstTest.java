@@ -1,19 +1,12 @@
 package gosuslugi2.tests;
 
+import gosuslugi2.data.TestParameters;
 import gosuslugi2.pages.MainPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class FirstTest extends BaseTest {
 
@@ -23,7 +16,7 @@ public class FirstTest extends BaseTest {
     public void setup() {
         mainPage = new MainPage(driver);
     }
-
+/*
     @Test
     public void check() {
         ChromeOptions options = new ChromeOptions();
@@ -52,34 +45,35 @@ public class FirstTest extends BaseTest {
         element.click();
     }
 
+ */
+
     @Test
     public void changeRegion() {
-        mainPage.setRegion("СОСН Омский садовод");
+        String regionToSet = "СОСН Омский садовод";
+        String expectedValue = "Биофабрика п";
+        mainPage.setRegion(regionToSet);
 
-        /*
-        //Клик по радиобаттону Вручную
-        //css селектор
-        WebElement manualRegionSelect = driver.findElement(By.cssSelector("#app-radio-1"));
-        manualRegionSelect.click();
+        //Обратиться к элементу, вытащить текст и сверить с ожидаемым
+        mainPage.checkResult(expectedValue);
+    }
 
-        //Ввод текста "Абакан" в поле поиска региона
-        //css селектор; использование # вместо id в данном случае приводит к ошибке
-        WebElement regionInput = driver.findElement(By.cssSelector("[id*='search-input']"));
-        regionInput.sendKeys("Абакан");
+    //Параметризированный тест
+    @ParameterizedTest
+    @CsvSource({"СОСН Омский садовод, Биофабрика п"})
+    public void changeRegionParam(String regionToSet, String expectedValue) {
+        mainPage.setRegion(regionToSet);
 
-        //Наведение курсора на первый элемент выпадающего списка
-        WebElement firstRegion = driver.findElement(By.xpath("//div[@itemid='95401000000']"));
+        //Обратиться к элементу, вытащить текст и сверить с ожидаемым
+        mainPage.checkResult(expectedValue);
+    }
 
-        actions.moveToElement(firstRegion);
-        //Скролл в списке и выбор элемента Вологодская обл/Кадуйский р-н/деревня Абаканово
-        WebElement regionToSelect = driver.findElement(By.xpath("//div[@itemid='19226816002']"));
-        actions.scrollToElement(regionToSelect)
-                .click(regionToSelect)
-                .perform();
+    //Если парамтеров много, то лучше делать через enum
+    @ParameterizedTest
+    @EnumSource(TestParameters.class)
+    public void changeRegionParamE(TestParameters testParameters) {
+        mainPage.setRegion(testParameters.getRegionToSet());
 
-        //Клик на кнопку Применить
-        WebElement submitButton = driver.findElement(By.xpath("//span[contains(text(), 'Применить')]"));
-        submitButton.click();
-         */
+        //Обратиться к элементу, вытащить текст и сверить с ожидаемым
+        mainPage.checkResult(testParameters.getExpectedValue());
     }
 }
