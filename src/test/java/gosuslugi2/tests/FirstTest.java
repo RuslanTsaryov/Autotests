@@ -59,7 +59,9 @@ public class FirstTest extends BaseTest {
 
     //Параметризированный тест
     @ParameterizedTest
-    @CsvSource({"СОСН Омский садовод, Биофабрика п"})
+    @CsvSource({"СОСН Омский садовод, Биофабрика п",
+                "Астрахань/тер. СНТ Виктория, Астрахань г",
+                "Омская обл/Омский р-н/село Пушкино/мкр Наукоград, Пушкино с"})
     public void changeRegionParam(String regionToSet, String expectedValue) {
         mainPage.setRegion(regionToSet);
 

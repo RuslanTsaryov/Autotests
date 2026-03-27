@@ -1,4 +1,4 @@
-package gosuslugi2.data;
+package gosuslugi3.data;
 
 public enum TestParameters {
 

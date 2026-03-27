@@ -56,6 +56,6 @@ public class MainPage extends BasePage {
     public void checkResult(String expected) {
         //применить ассерты
         String actual = regionSelectButton.getText();
-        Assertions.assertEquals(actual, expected);
+        Assertions.assertEquals(expected, actual);
     }
 }
